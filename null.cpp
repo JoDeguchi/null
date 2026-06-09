@@ -11,6 +11,7 @@ public:
 
 };
 
+
 class Player {
 	std::shared_ptr<Weapon>weapon;
 public:
@@ -27,45 +28,30 @@ public:
 	}
 };
 
+class Sword : public Weapon {};
+
 int main()
 {
-	auto a = std::make_shared<Player>(std::make_shared<Weapon>());
 
-	std::cout << "a: " << a.use_count() << std::endl;
+	auto sword = std::make_shared<Sword>();
 
-	auto b = a;
-
-	std::cout << "a: " << a.use_count() << std::endl;
-	std::cout << "b: " << b.use_count() << std::endl;
-
-	auto c = std::move(a);
-
-	std::cout << "a: " << a.use_count() << std::endl;
-	std::cout << "b: " << b.use_count() << std::endl;
-	std::cout << "c: " << c.use_count() << std::endl;
-
-	assert(a != nullptr);
-	a->Attack();
-	
+	Player p(sword);
+	Player p1(std::move(sword));
 
 
-
-	////	コピーするように
-	//auto wp = std::make_shared<Weapon>();
-
-	//auto a=std::make_shared<int>();
-	//auto b = a;
-	//auto c = std::move(a);
-
-	////	コピー
-	//Player p(wp); 
-	////	ムーブ（所有権を移動）メモリの効率化がよくなる
-	//Player q(std::move(wp));
-	//return 0;
 }
 
 
 
 
 
+////	コピーするように
+//auto wp = std::make_shared<Weapon>();
+
+
+////	コピー
+//Player p(wp); 
+////	ムーブ（所有権を移動）メモリの効率化がよくなる
+//Player q(std::move(wp));
+//return 0;
 
