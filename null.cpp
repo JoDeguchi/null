@@ -2,28 +2,43 @@
 //
 
 #include <iostream>
-#include <assert.h>	//	製品版では実態がなくなる	
+#include <assert.h>	//	デバッグ時のチェック用製品版では実態がなくなる	
 
-class Test
+class Weapon
 {
 public:
-	void Show()
+	void use(){}
+
+};
+
+class Player {
+	std::shared_ptr<Weapon>weapon;
+public:
+
+	Player(std::shared_ptr<Weapon>weapon1)
+		:weapon(std::move(weapon1))
 	{
-		std:: cout << "Hello World" << std::endl;
+		std::cout << weapon.use_count() << std::endl;
+		std::cout << weapon1.use_count() << std::endl;
+	}
+	void Attack()
+	{
+		if (weapon)weapon->use();
 	}
 };
 
-
-void Func(Test* test)
-{
-	assert(test != nullptr);
-	test->Show();
-}
-
 int main()
 {
-	Func(new Test());
-	Func(nullptr);
-
+	auto wp = std::make_shared<Weapon>();
+	//	コピー
+	Player p(wp);
+	//	ムーブ（所有権を移動）
+	Player q(std::move(wp));
+	return 0;
 }
+
+
+
+
+
 
