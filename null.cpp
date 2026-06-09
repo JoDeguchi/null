@@ -29,12 +29,39 @@ public:
 
 int main()
 {
-	auto wp = std::make_shared<Weapon>();
-	//	コピー
-	Player p(wp);
-	//	ムーブ（所有権を移動）
-	Player q(std::move(wp));
-	return 0;
+	auto a = std::make_shared<Player>(std::make_shared<Weapon>());
+
+	std::cout << "a: " << a.use_count() << std::endl;
+
+	auto b = a;
+
+	std::cout << "a: " << a.use_count() << std::endl;
+	std::cout << "b: " << b.use_count() << std::endl;
+
+	auto c = std::move(a);
+
+	std::cout << "a: " << a.use_count() << std::endl;
+	std::cout << "b: " << b.use_count() << std::endl;
+	std::cout << "c: " << c.use_count() << std::endl;
+
+	assert(a != nullptr);
+	a->Attack();
+	
+
+
+
+	////	コピーするように
+	//auto wp = std::make_shared<Weapon>();
+
+	//auto a=std::make_shared<int>();
+	//auto b = a;
+	//auto c = std::move(a);
+
+	////	コピー
+	//Player p(wp); 
+	////	ムーブ（所有権を移動）メモリの効率化がよくなる
+	//Player q(std::move(wp));
+	//return 0;
 }
 
 
